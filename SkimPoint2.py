@@ -1,10 +1,16 @@
 import numpy as np
 from collections import deque
 
+# ------------------------------------------------
+imageXLen = 500     # 画像の横サイズ
+imageYLen = 500     # 画像の縦サイズ
+skimDistance = 3    # 間引く距離
+# ------------------------------------------------
+
 
 def GetStartPoint(array):
-    for i in range(500):
-        for j in range(500):
+    for i in range(imageYLen):
+        for j in range(imageXLen):
             if array[i][j] == 1:
                 return [i, j]
 
@@ -16,8 +22,7 @@ def GetNextReferencePoint(array, referencePoint):
     q.append(referencePoint)
     referencePoints = list()    # 支点の座標
     distance = 0                # 支点からの距離
-    skimDistance = 5  # 間引く距離
-    lastPoint = list()  # 終点を記録するためだけに作った
+    lastPoint = list()          # 終点を記録するためだけに作った
 
     while q:
         distance += 1
@@ -56,7 +61,8 @@ def main():
         if referencePoint == None:  # 終点まで来たら終わり
             break
 
-        skimmmedArray.append(referencePoint)
+        if referencePoint != []:
+            skimmmedArray.append(referencePoint)
 
     # 最後に配列をファイル出力して終了
     print(skimmmedArray)
