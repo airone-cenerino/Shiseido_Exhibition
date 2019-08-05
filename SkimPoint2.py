@@ -1,18 +1,13 @@
 import numpy as np
 from collections import deque
+from matplotlib import pyplot
 
 # ------------------------------------------------
-imageXLen = 500     # 画像の横サイズ
-imageYLen = 500     # 画像の縦サイズ
-skimDistance = 3    # 間引く距離
+imageXLen = 1000     # 画像の横サイズ
+imageYLen = 1000     # 画像の縦サイズ
+skimDistance = 1    # 間引く距離
+始点 = [817, 970]    # 幅優先探索開始座標
 # ------------------------------------------------
-
-
-def GetStartPoint(array):
-    for i in range(imageYLen):
-        for j in range(imageXLen):
-            if array[i][j] == 1:
-                return [i, j]
 
 
 def GetNextReferencePoint(array, referencePoint):
@@ -50,7 +45,7 @@ def GetNextReferencePoint(array, referencePoint):
 
 def main():
     array = np.loadtxt("array.csv", delimiter=",")  # 0と1の配列を取得
-    referencePoint = GetStartPoint(array)  # 始点を取得
+    referencePoint = 始点
     skimmmedArray = list()  # これが間引いた後の座標が入るリスト
     skimmmedArray.append(referencePoint)
     flg = True
@@ -67,7 +62,16 @@ def main():
     # 最後に配列をファイル出力して終了
     print(skimmmedArray)
     np.savetxt("skimmedArray.csv", skimmmedArray, delimiter=",")
+    
 
+    xList = list()
+    yList = list()
+    for data in skimmmedArray:
+        yList.append(data[0])
+        xList.append(data[1])
+
+    pyplot.plot(xList, yList)
+    pyplot.show()
 
 if __name__ == '__main__':
     main()

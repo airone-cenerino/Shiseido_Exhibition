@@ -2,15 +2,20 @@ import numpy as np
 import math
 
 # ---------------------------------------------
-xLen = 200      # 紙の横の長さ(cm)
-yLen = 200      # 紙の縦の長さ(cm)
+xLen = 30      # 紙の横の長さ(cm)
+yLen = 30      # 紙の縦の長さ(cm)
 imageXLen = 500  # 画像の横サイズ
 imageYLen = 500  # 画像の縦サイズ
 centiToDegreeRatio = 60.0    # 1cm伸ばすのに必要な回転角度
 # ---------------------------------------------
 
+lastLeftStep = 0    # 直前の原点からのステップ数
+lastRightStep = 0
+
 
 def CalculateMotorMoveValue(lastPoint, nextPoint):
+    startPoint = [imageYLen/2, imageYLen/2]  	# 基準点
+
     # print("last:" + str(lastPoint))
     # print("next:" + str(nextPoint))
 
@@ -37,7 +42,6 @@ def CalculateMotorMoveValue(lastPoint, nextPoint):
 
 
 def main():
-    startPoint = [imageYLen/2, imageYLen/2]  	# 基準点
     lastPoint = startPoint  					# ペンがどこにいるか
     array = np.loadtxt("skimmedArray.csv", delimiter=",")  # 0と1の配列を取得
 
