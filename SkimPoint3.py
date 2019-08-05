@@ -5,8 +5,8 @@ from matplotlib import pyplot
 # ------------------------------------------------
 imageXLen = 1000     # 画像の横サイズ
 imageYLen = 1000     # 画像の縦サイズ
-skimDistance = 7    # 間引く距離
-始点 = [817, 970]    # 幅優先探索開始座標
+skimDistance = 5    # 間引く距離
+始点 = [753, 418]    # 幅優先探索開始座標  1000(817, 970)  beautiful(753, 418)
 # ------------------------------------------------
 
 
@@ -50,6 +50,7 @@ def GetSkimmedArray(array):
             for 点 in 一時リスト:
                 ySum += 点[0]
                 xSum += 点[1]
+
             skimmedArray.append([ySum/len(一時リスト), xSum/len(一時リスト)])
     
     skimmedArray.append(lastPoint)

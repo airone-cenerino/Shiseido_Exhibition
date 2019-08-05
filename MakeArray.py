@@ -4,7 +4,7 @@ import numpy as np
 # ------------------------------------------------
 imageXLen = 1000  # 画像の横サイズ
 imageYLen = 1000  # 画像の縦サイズ
-imageName = "1000.png"
+imageName = "beautifulArt.png"
 # ------------------------------------------------
 
 img = cv2.imread(imageName)
@@ -16,5 +16,6 @@ for i in range(imageYLen):
     for j in range(imageXLen):
         if not (img[i][j][0] == 255 and img[i][j][1] == 255 and img[i][j][2] == 255):
             array[i][j] = 1
+
 
 np.savetxt("array.csv", array, delimiter=",")

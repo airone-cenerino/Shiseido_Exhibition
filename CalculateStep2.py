@@ -2,8 +2,8 @@ import numpy as np
 import math
 
 # ---------------------------------------------
-xLen = 200      # 紙の横の長さ(cm)
-yLen = 200      # 紙の縦の長さ(cm)
+xLen = 40      # 紙の横の長さ(cm)
+yLen = 40      # 紙の縦の長さ(cm)
 imageXLen = 1000  # 画像の横サイズ
 imageYLen = 1000  # 画像の縦サイズ
 cmToStepRatio = 400    # 1cm伸ばすのに必要なステップ数
@@ -11,8 +11,6 @@ cmToStepRatio = 400    # 1cm伸ばすのに必要なステップ数
 
 startPointStringLen = [math.sqrt((yLen/2)**2 + (xLen/2)**2), math.sqrt((yLen/2)**2 + (xLen/2)**2)]  # 基準点でのひもの長さ (cm)
 lastStep = [0, 0]         # 直前の原点からのステップ数
-
-print(startPointStringLen)
 
 def CalculateMotorMoveValue(nextPoint):
     global lastStep
@@ -41,8 +39,8 @@ def main():
     np.savetxt("LeftMotor.csv", left, delimiter=",")
     np.savetxt("RightMotor.csv", right, delimiter = ",")
 
-    print(sum(left))    # 原点からの総ステップ
-    print(sum(right))
+    print("原点からのステップ(左モータ)" + str(sum(left)))    # 原点からの総ステップ
+    print("原点からのステップ(右モータ)" + str(sum(right)))
 
 if __name__ == '__main__':
     main()
