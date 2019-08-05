@@ -3,10 +3,10 @@ from collections import deque
 from matplotlib import pyplot
 
 # ------------------------------------------------
-imageXLen = 1000     # 画像の横サイズ
-imageYLen = 1000     # 画像の縦サイズ
+imageXLen = 1000    # 画像の横サイズ
+imageYLen = 1000    # 画像の縦サイズ
 skimDistance = 5    # 間引く距離
-始点 = [753, 418]    # 幅優先探索開始座標  1000(817, 970)  beautiful(753, 418)
+始点 = [753, 418]   # 幅優先探索開始座標  1000(817, 970)  beautiful(753, 418)
 # ------------------------------------------------
 
 
@@ -31,18 +31,19 @@ def GetSkimmedArray(array):
         for referencePoint in points:
             for i in range(8):
                 if array[referencePoint[0] + y[i]][referencePoint[1] + x[i]] == 1:  # 隣り合う点が見つかったら
-                    if distance%skimDistance == 0:  # 距離が間引き距離以外なら
+                    if distance % skimDistance == 0:  # 距離が間引き距離以外なら
                         # ここで一時リストに座標をぶち込む
-                        一時リスト.append([referencePoint[0] + y[i], referencePoint[1] + x[i]])
-                    
+                        一時リスト.append([referencePoint[0] + y[i],
+                                      referencePoint[1] + x[i]])
+
                     q.append([referencePoint[0] + y[i],
-                                referencePoint[1] + x[i]])
+                              referencePoint[1] + x[i]])
                     array[referencePoint[0] + y[i]
-                            ][referencePoint[1] + x[i]] = 0
+                          ][referencePoint[1] + x[i]] = 0
 
                     lastPoint = [referencePoint[0] +
-                                    y[i], referencePoint[1] + x[i]]
-        
+                                 y[i], referencePoint[1] + x[i]]
+
         # ここで一時リストの重心点をskimmedArrayにアペンドする
         if 一時リスト != []:
             xSum = 0
@@ -52,7 +53,7 @@ def GetSkimmedArray(array):
                 xSum += 点[1]
 
             skimmedArray.append([ySum/len(一時リスト), xSum/len(一時リスト)])
-    
+
     skimmedArray.append(lastPoint)
 
     return skimmedArray
@@ -60,10 +61,10 @@ def GetSkimmedArray(array):
 
 def main():
     dataArray = np.loadtxt("array.csv", delimiter=",")  # 0と1の配列を取得
-    resultArray = GetSkimmedArray(dataArray)
-    print(resultArray)
+    resultArray = GetSkimmedArray(dataArray)            # 間引いた後の座標リストを取得
     np.savetxt("skimmedArray.csv", resultArray, delimiter=",")
-    
+    print(resultArray)
+
     # 表を描画
     xList = list()
     yList = list()
