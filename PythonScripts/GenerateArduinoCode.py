@@ -1,23 +1,29 @@
 import numpy as np
 
-leftFileName = "LeftMotorArrayCode.txt"
-rightFileName = "RightMotorArrayCode.txt"
+# ---------------------------------------------
+imageNum = 28       # 画像の枚数
+folderName = "SampleImage2k\\"    # 画像フォルダ名
+# ---------------------------------------------
+
+path = "D:\Programming\okanonproject\MotorCSV\\"
 
 
 def main():
-    file = open(leftFileName, "w")
-    leftMotorStepData = np.loadtxt("LeftMotor.csv", dtype=int, delimiter=",")
-    for i in range(len(leftMotorStepData)):
-        file.write(str(leftMotorStepData[i]) + ",")
-    file.close()
+    for num in range(imageNum):
+        file = open("LeftMotorArrayCode" + str(num+1) + ".txt", "w")
+        leftMotorStepData = np.loadtxt(
+            path + folderName + "LeftMotor" + str(num+1) + ".csv", dtype=int, delimiter=",")
+        for i in range(len(leftMotorStepData)):
+            file.write(str(leftMotorStepData[i]) + ",")
+        file.close()
 
-    file = open(rightFileName, "w")
-    rightMotorStepData = np.loadtxt("RightMotor.csv", dtype=int, delimiter=",")
-    for i in range(len(rightMotorStepData)):
-        file.write(str(rightMotorStepData[i]) + ",")
-    file.close()
-
-    print("総ステップ数 : " + str(len(rightMotorStepData)))
+        file = open("RightMotorArrayCode" + str(num+1) + ".txt", "w")
+        rightMotorStepData = np.loadtxt(
+            path + folderName + "RightMotor" + str(num+1) + ".csv", dtype=int, delimiter=",")
+        for i in range(len(rightMotorStepData)):
+            file.write(str(rightMotorStepData[i]) + ",")
+        file.close()
+        print(str(num+1) + "枚目の総ステップ数 : " + str(len(rightMotorStepData)))
 
 
 if __name__ == '__main__':

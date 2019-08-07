@@ -3,14 +3,29 @@ from collections import deque
 from matplotlib import pyplot
 
 # ------------------------------------------------
-imageXLen = 1000    # 画像の横サイズ
-imageYLen = 1000    # 画像の縦サイズ
-skimDistance = 5    # 間引く距離
-始点 = [753, 418]   # 幅優先探索開始座標  1000(817, 970)  beautiful(753, 418)
+imageXLen = 2000    # 画像の横サイズ
+imageYLen = 2000    # 画像の縦サイズ
+skimDistance = 3    # 間引く距離
+imageNum = 28       # 画像の枚数
+folderName = "SampleImage2k\\"    # 画像フォルダ名
+
+始点リスト = [[1042, 922], [1036, 892], [1020, 916], [1072, 691], [1035, 795], [930, 979], [870, 373],
+         [1271, 479], [1365, 454], [1320, 1012], [
+             945, 378], [971, 321], [989, 325], [1074, 382],
+         [1061, 364], [1042, 356], [1030, 357], [1008, 442],
+         [659, 664], [540, 224], [778, 426],
+         [681, 994], [670, 755], [512, 731], [476, 570], [536, 1327], [802, 1536], [995, 1064]]  # 幅優先探索開始地点のリスト
+
+
+反転リスト = [1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]  # 1なら反対から線を描く
 # ------------------------------------------------
 
 
-def GetSkimmedArray(array):
+path = "D:\Programming\okanonproject\ArrayCSV\\"
+
+
+def GetSkimmedArray(array, 始点):
     y = [1, -1, 0, 0, 1, 1, -1, -1]
     x = [0, 0, 1, -1, 1, -1, 1, -1]
     q = deque()                 # キュー
@@ -59,21 +74,42 @@ def GetSkimmedArray(array):
     return skimmedArray
 
 
-def main():
-    dataArray = np.loadtxt("array.csv", delimiter=",")  # 0と1の配列を取得
-    resultArray = GetSkimmedArray(dataArray)            # 間引いた後の座標リストを取得
-    np.savetxt("skimmedArray.csv", resultArray, delimiter=",")
-    print(resultArray)
+def ShowGraph(array):
+    print(array)
+    print()
 
     # 表を描画
     xList = list()
     yList = list()
-    for data in resultArray:
+    for data in array:
         yList.append(data[0])
         xList.append(data[1])
 
     pyplot.plot(xList, yList)
     pyplot.show()
+
+
+def main():
+    for num in range(imageNum):
+        reverseFlg = 反転リスト[num]
+
+        dataArray = np.loadtxt(path + folderName + "array" + str(num+1) +
+                               ".csv", delimiter=",")  # 0と1の配列を取得
+        resultArray = GetSkimmedArray(
+            dataArray, 始点リスト[num])            # 間引いた後の座標リストを取得
+
+        if reverseFlg == 1:
+            reversedArray = list()
+            for 座標 in resultArray:
+                reversedArray.insert(0, 座標)
+
+            np.savetxt("skimmedArray" + str(num + 1) +
+                       ".csv", reversedArray, delimiter=",")
+            # ShowGraph(reversedArray)
+        else:
+            np.savetxt("skimmedArray" + str(num + 1) +
+                       ".csv", resultArray, delimiter=",")
+            # ShowGraph(resultArray)
 
 
 if __name__ == '__main__':

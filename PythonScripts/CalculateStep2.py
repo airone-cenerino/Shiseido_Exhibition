@@ -2,12 +2,16 @@ import numpy as np
 import math
 
 # ---------------------------------------------
-xLen = 40      # 紙の横の長さ(cm)
-yLen = 40      # 紙の縦の長さ(cm)
-imageXLen = 1000  # 画像の横サイズ
-imageYLen = 1000  # 画像の縦サイズ
-cmToStepRatio = 400    # 1cm伸ばすのに必要なステップ数
+xLen = 180          # 紙の横の長さ(cm)
+yLen = 180          # 紙の縦の長さ(cm)
+imageXLen = 2000    # 画像の横サイズ
+imageYLen = 2000    # 画像の縦サイズ
+cmToStepRatio = 400  # 1cm伸ばすのに必要なステップ数
+imageNum = 28       # 画像の枚数
+folderName = "SampleImage2k\\"    # 画像フォルダ名
 # ---------------------------------------------
+
+path = "D:\Programming\okanonproject\SkimmedArrayCSV\\"
 
 startPointStringLen = [math.sqrt(
     (yLen/2)**2 + (xLen/2)**2), math.sqrt((yLen/2)**2 + (xLen/2)**2)]  # 基準点でのひもの長さ (cm)
@@ -32,25 +36,47 @@ def CalculateMotorMoveValue(nextPoint):
 
 
 def main():
-    array = np.loadtxt("skimmedArray.csv", delimiter=",")  # 座標のデータを取得
-    left = list()
-    right = list()
+    global lastStep
 
-    for point in array:
-        step = CalculateMotorMoveValue(point)  # 次の点を渡して、動かすステップ数を取得
-        left.append(int(step[0]))
-        right.append(int(step[1]))
+    現在位置 = [0, 0]
+    テスト用配列左 = list()
+    テスト用配列右 = list()
 
-    np.savetxt("LeftMotor.csv", left, delimiter=",")
-    np.savetxt("RightMotor.csv", right, delimiter=",")
+    for num in range(imageNum):
+        array = np.loadtxt(path + folderName + "skimmedArray"+str(num+1)+".csv",
+                           delimiter=",")  # 座標のデータを取得
+        left = list()
+        right = list()
 
-    print("始点-----------------")
-    print("原点からのステップ(左モータ)" + str(left[0]))
-    print("原点からのステップ(右モータ)" + str(right[0]))
-    print()
-    print("終点-----------------")
-    print("原点からのステップ(左モータ)" + str(sum(left)))
-    print("原点からのステップ(右モータ)" + str(sum(right)))
+        for point in array:
+            step = CalculateMotorMoveValue(point)  # 次の点を渡して、動かすステップ数を取得
+            left.append(int(step[0]))
+            right.append(int(step[1]))
+            現在位置[0] += int(step[0])
+            現在位置[1] += int(step[1])
+            テスト用配列左.append(int(step[0]))
+            テスト用配列右.append(int(step[1]))
+
+        if num + 1 == imageNum:
+            # 絵の最後は原点に戻る
+            left.append(-現在位置[0])
+            right.append(-現在位置[1])
+            テスト用配列左.append(-現在位置[0])
+            テスト用配列右.append(-現在位置[1])
+
+            現在位置[0] -= 現在位置[0]
+            現在位置[1] -= 現在位置[1]
+
+
+        np.savetxt("LeftMotor"+str(num+1)+".csv", left, delimiter=",")
+        np.savetxt("RightMotor" + str(num + 1) + ".csv", right, delimiter=",")
+        np.savetxt("LeftMotor.csv", テスト用配列左, delimiter=",")
+        np.savetxt("RightMotor.csv", テスト用配列右, delimiter=",")
+
+        print(str(num + 1) + "番目の画像")
+        print(現在位置)
+
+        lastStep = 現在位置
 
 
 if __name__ == '__main__':
