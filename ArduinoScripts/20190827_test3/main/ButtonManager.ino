@@ -1,6 +1,6 @@
 // Pin番号----------------------------
-#define INITIALIZE_BUTTON_PIN 2
-#define START_STOP_BUTTON_PIN 3
+#define INITIALIZE_BUTTON_PIN 3
+#define START_STOP_BUTTON_PIN 2
 #define RESTART_BUTTON_PIN 4
 #define SELECT_BUTTON_PIN 5
 
@@ -16,7 +16,7 @@ void InitializeButtonDown() {
     Serial.println("位置調整を行います。");
     // ここでモータを回して中心に持ってくる。
 
-    
+
   }
 }
 
@@ -36,13 +36,24 @@ void RestartButtonDown() {
   Serial.println("リスタートボタンが押されました。");
 
   // 次に描く絵を最初から描き始める
-
+  picture = nextPicture;
+  if (picture + 1 == picturesLen) {
+    nextPicture = 0;
+  } else {
+    nextPicture = picture + 1;
+  }
+  line = 0;
+  point = 1;
   condition = DRAW;
-  
 }
 
 void SelectButtonDown() {
   Serial.println("セレクトボタンが押されました。");
+  if (picture + 1 == picturesLen) {
+    nextPicture = 0;
+  } else {
+    nextPicture = picture + 1;
+  }
 }
 
 

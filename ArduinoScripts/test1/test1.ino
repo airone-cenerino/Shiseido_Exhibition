@@ -1,10 +1,10 @@
-// ステップ--------------------------------
-int X1_1[] = {2466,96,93,95};
-int Y1_1[] = {3913,7,-2,3};
-int X1_2[] = {1};
-int Y1_2[] = {2};
-int X1_3[] = {3};
-int Y1_3[] = {4};
+// ステップ(配列の0番目の要素は必ずデータ数を格納せよ)--------------------------------
+int X1_1[] = {4, 2466, 96, 93, 95};
+int Y1_1[] = {4, 3913, 7, -2, 3};
+int X1_2[] = {1, 1};
+int Y1_2[] = {1, 2};
+int X1_3[] = {1, 3};
+int Y1_3[] = {1, 4};
 
 int X2_1[] = {0};
 int Y2_1[] = {0};
@@ -29,34 +29,34 @@ int picturesLen;
 
 void setup() {
   Serial.begin(9600);
-  picturesLen = sizeof(pictures)/sizeof(int***);
+  picturesLen = sizeof(pictures) / sizeof(int***);
   //MotorSetUp();
 
-  for(int k=0;k<picturesLen;k++){  // 絵   
-    for(int j=0;j<sizeof(pictures[k])/sizeof(int);j++){ // 線
-        for(int i=0;i<sizeof(pictures[0][0][0])/sizeof(int);i++){  // ステップ
-//        if(pictures[0][0][0][i] > 0){
-//          L6470_move(1,pictures[0][0][0][i]);
-//        }else{
-//          L6470_move(0,-pictures[0][0][0][i]);
-//        }
-//    
-//        if(pictures[0][0][1][i] > 0){
-//          L6470_move2(1,pictures[0][0][1][i]);
-//        }else{
-//          L6470_move2(0,-pictures[0][0][1][i]);
-//        }
-//        
-//        L6470_busydelay(0);
-//        L6470_busydelay2(0);
-          Serial.println(pictures[0][0][0][i]);
-          Serial.println(pictures[0][0][1][i]);
-          Serial.println("--");
-        }
-//    }
-//  }
-}
+  for (int k = 0; k < picturesLen; k++) { // 絵
+    for (int j = 0; j < sizeof(pictures[k]) / sizeof(int); j++) { // 線
+      for (int i = 0; i < sizeof(pictures[0][0][0]) / sizeof(int); i++) { // ステップ
+        //        if(pictures[0][0][0][i] > 0){
+        //          L6470_move(1,pictures[0][0][0][i]);
+        //        }else{
+        //          L6470_move(0,-pictures[0][0][0][i]);
+        //        }
+        //
+        //        if(pictures[0][0][1][i] > 0){
+        //          L6470_move2(1,pictures[0][0][1][i]);
+        //        }else{
+        //          L6470_move2(0,-pictures[0][0][1][i]);
+        //        }
+        //
+        //        L6470_busydelay(0);
+        //        L6470_busydelay2(0);
+        Serial.println(pictures[0][0][0][i]);
+        Serial.println(pictures[0][0][1][i]);
+        Serial.println("--");
+      }
+      //    }
+      //  }
+    }
 
-void loop() {
+    void loop() {
 
-}
+    }
