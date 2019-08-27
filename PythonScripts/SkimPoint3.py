@@ -7,7 +7,7 @@ imageXLen = 2000    # 画像の横サイズ
 imageYLen = 2000    # 画像の縦サイズ
 skimDistance = 3    # 間引く距離
 imageNum = 28       # 画像の枚数
-folderName = "SampleImage2k\\"    # 画像フォルダ名
+folderName = "SampleImage2k"    # 画像フォルダ名
 
 始点リスト = [[1042, 922], [1036, 892], [1020, 916], [1072, 691], [1035, 795], [930, 979], [870, 373],
          [1271, 479], [1365, 454], [1320, 1012], [
@@ -22,7 +22,8 @@ folderName = "SampleImage2k\\"    # 画像フォルダ名
 # ------------------------------------------------
 
 
-path = "D:\Programming\okanonproject\ArrayCSV\\"
+arrayCsvPath = "D:\Programming\okanonproject\ArrayCSV\\"
+skimmedArraypath = "D:\Programming\okanonproject\SkimmedArrayCSV\\"
 
 
 def GetSkimmedArray(array, 始点):
@@ -94,7 +95,7 @@ def main():
         print(num)
         reverseFlg = 反転リスト[num]
 
-        dataArray = np.loadtxt(path + folderName + "array" + str(num+1) +
+        dataArray = np.loadtxt(arrayCsvPath + folderName + "\\array" + str(num+1) +
                                ".csv", delimiter=",")  # 0と1の配列を取得
         resultArray = GetSkimmedArray(
             dataArray, 始点リスト[num])            # 間引いた後の座標リストを取得
@@ -104,11 +105,11 @@ def main():
             for 座標 in resultArray:
                 reversedArray.insert(0, 座標)
 
-            np.savetxt("skimmedArray" + str(num + 1) +
+            np.savetxt(skimmedArraypath + folderName + "\\skimmedArray" + str(num + 1) +
                        ".csv", reversedArray, delimiter=",")
             # ShowGraph(reversedArray)
         else:
-            np.savetxt("skimmedArray" + str(num + 1) +
+            np.savetxt(skimmedArraypath + folderName + "\\skimmedArray" + str(num + 1) +
                        ".csv", resultArray, delimiter=",")
             # ShowGraph(resultArray)
 

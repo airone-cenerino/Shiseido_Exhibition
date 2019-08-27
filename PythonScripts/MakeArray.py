@@ -10,7 +10,8 @@ folderName = "SampleImage2k"    # 画像フォルダ名
 imageNum = 28                   # 画像の枚数
 # ------------------------------------------------
 
-path = "D:\Programming\okanonproject\Images\\"
+imagePath = "D:\Programming\okanonproject\Images\\"
+csvPath = "D:\Programming\okanonproject\ArrayCSV\\"
 拡張子 = ".png"
 
 
@@ -48,7 +49,7 @@ def main():
     for num in range(imageNum):
         print(str(num+1) + "枚目処理開始")
 
-        img = cv2.imread(path + folderName + "\\" +
+        img = cv2.imread(imagePath + folderName + "\\" +
                          str(num+1) + 拡張子)   # 画像読み込み
         array = [[0 for i in range(imageXLen)]
                  for j in range(imageYLen)]  # 色があるところは0、そうでなければ1の配列を宣言
@@ -63,7 +64,8 @@ def main():
                     array[i][j] = 1
                     探索開始点 = [i, j]
 
-        np.savetxt("array" + str(num+1) + ".csv", array, delimiter=",")
+        np.savetxt(csvPath + folderName + "\\array" +
+                   str(num+1) + ".csv", array, delimiter=",")
 
         始点リスト.append(SearchStartPoint(array, 探索開始点))
         print()
