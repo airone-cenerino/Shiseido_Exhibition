@@ -20,6 +20,24 @@ void MotorSetUp() {
   L6470_getstatus2();//2台目のフラグ解放
 }
 
+void MotorMove() {
+  if (pictures[picture][line][0][point] > 0) {
+    L6470_move(1, pictures[picture][line][0][point]);
+  } else {
+    L6470_move(0, -pictures[picture][line][0][point]);
+  }
+
+  Serial.println(pictures[picture][line][0][point]);
+
+  if (pictures[picture][line][1][point] > 0) {
+    L6470_move2(1, pictures[picture][line][1][point]);
+  } else {
+    L6470_move2(0, -pictures[picture][line][1][point]);
+  }
+  L6470_busydelay(0);
+  L6470_busydelay2(0);
+}
+
 void L6470_setup() {
   L6470_setparam_acc(0x30); //[R, WS] 加速度default 0x08A (12bit) (14.55*val+14.55[step/s^2])
   L6470_setparam_dec(0x30); //[R, WS] 減速度default 0x08A (12bit) (14.55*val+14.55[step/s^2])

@@ -1,74 +1,35 @@
 // Pin番号----------------------------
-#define INITIALIZE_BUTTON_PIN 3
-#define START_STOP_BUTTON_PIN 2
-#define RESTART_BUTTON_PIN 4
-#define SELECT_BUTTON_PIN 5
+#define INITIALIZE_BUTTON_PIN 45
+#define START_STOP_BUTTON_PIN 42
+#define RESTART_BUTTON_PIN 44
+#define SELECT_BUTTON_PIN 43
+#define INITIALIZE_BUTTON_LAMP_PIN 25
+#define START_STOP_BUTTON_LAMP_PIN 22
+#define RESTART_BUTTON_LAMP_PIN 24
+#define SELECT_BUTTON_LAMP_PIN 23
 
 bool initialButtonCondition = false;
 bool startStopButtonCondition = false;
 bool restartButtonCondition = false;
 bool selectButtonCondition = false;
 
-void InitializeButtonDown() {
-  Serial.println("初期化ボタンが押されました。");
 
-  if (condition == STOP) {
-    Serial.println("位置調整を行います。");
-    // ここでモータを回して中心に持ってくる。
-
-
-  }
-}
-
-void StartStopButtonDown() {
-  Serial.println("スタート/ストップボタンが押されました。");
-  switch (condition) {
-    case DRAW:
-      condition = STOP;
-      break;
-    case STOP:
-      condition = DRAW;
-      break;
-  }
-}
-
-void RestartButtonDown() {
-  Serial.println("リスタートボタンが押されました。");
-
-  // 次に描く絵を最初から描き始める
-  picture = nextPicture;
-  if (picture + 1 == picturesLen) {
-    nextPicture = 0;
-  } else {
-    nextPicture = picture + 1;
-  }
-  line = 0;
-  point = 1;
-  condition = DRAW;
-}
-
-void SelectButtonDown() {
-  Serial.println("セレクトボタンが押されました。");
-  if (picture + 1 == picturesLen) {
-    nextPicture = 0;
-  } else {
-    nextPicture = picture + 1;
-  }
-}
-
-
-
-
-
-
-
-
-void PinSetUp() {
+void ButtonSetUp() {
   pinMode(INITIALIZE_BUTTON_PIN, INPUT);
   pinMode(START_STOP_BUTTON_PIN, INPUT);
   pinMode(RESTART_BUTTON_PIN, INPUT);
   pinMode(SELECT_BUTTON_PIN, INPUT);
+  pinMode(INITIALIZE_BUTTON_LAMP_PIN, OUTPUT);
+  pinMode(START_STOP_BUTTON_LAMP_PIN, OUTPUT);
+  pinMode(RESTART_BUTTON_LAMP_PIN, OUTPUT);
+  pinMode(SELECT_BUTTON_LAMP_PIN, OUTPUT);
   pinMode(13, OUTPUT);
+
+  // ボタンのLEDの消灯
+  digitalWrite(22, HIGH);
+  digitalWrite(23, HIGH);
+  digitalWrite(24, HIGH);
+  digitalWrite(25, HIGH);
 }
 
 void ButtonCheck() {
@@ -107,4 +68,60 @@ void ButtonCheck() {
   } else {
     selectButtonCondition = false;
   }
+}
+
+
+
+void InitializeButtonDown() {
+  Serial.println("初期化ボタンが押されました。");
+
+  if (condition == STOP) {
+    Serial.println("位置調整を行います。");
+    // ここでモータを回して中心に持ってくる。
+
+
+  }
+}
+
+void StartStopButtonDown() {
+  Serial.println("スタート/ストップボタンが押されました。");
+  switch (condition) {
+    case DRAW:
+      condition = STOP;
+      break;
+    case STOP:
+      condition = DRAW;
+      break;
+  }
+}
+
+void RestartButtonDown() {
+  Serial.println("リスタートボタンが押されました。");
+
+  // 次に描く絵を最初から描き始める
+  picture = nextPicture;
+  if (nextPicture + 1 == picturesLen) {
+    nextPicture = 0;
+    Serial.println("test");
+  } else {
+    nextPicture = picture + 1;
+  }
+  line = 0;
+  point = 1;
+  condition = DRAW;
+
+  DisplayUpdate();
+}
+
+void SelectButtonDown() {
+  if (nextPicture + 1 == picturesLen) {
+    nextPicture = 0;
+  } else {
+    nextPicture = picture + 1;
+  }
+
+  digitalWrite(SELECT_BUTTON_LAMP_PIN, LOW);
+  DisplayUpdate();
+  delay(500);
+  digitalWrite(SELECT_BUTTON_LAMP_PIN, HIGH);
 }

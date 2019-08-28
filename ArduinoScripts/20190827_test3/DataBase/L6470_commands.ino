@@ -5,8 +5,8 @@
 #define PIN_SPI_MISO MISO
 #define PIN_SPI_SCK SCK
 #define PIN_SPI_SS 4
-#define PIN_BUSY 30
-#define PIN_BUSY2 29
+#define PIN_BUSY 37
+#define PIN_BUSY2 36
 
 //----------------Uno用
 //#define PIN_SPI_MOSI 11
