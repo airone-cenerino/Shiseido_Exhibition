@@ -2,8 +2,8 @@ import numpy as np
 import math
 
 # ---------------------------------------------
-xLen = 180          # 紙の横の長さ(cm)
-yLen = 180          # 紙の縦の長さ(cm)
+xLen = 104          # 紙の横の長さ(cm)
+yLen = 104          # 紙の縦の長さ(cm)
 imageXLen = 2000    # 画像の横サイズ
 imageYLen = 2000    # 画像の縦サイズ
 cmToStepRatio = 400  # 1cm伸ばすのに必要なステップ数
@@ -11,8 +11,10 @@ imageNum = 28       # 画像の枚数
 folderName = "SampleImage2k"    # 画像フォルダ名
 # ---------------------------------------------
 
-skimmedArrayPath = "D:\Programming\okanonproject\SkimmedArrayCSV\\"
-MotorCSVPath = "D:\Programming\okanonproject\MotorCSV\\"
+skimmedArrayPath = "C:\\Users\kasahara\pro\OkanonProject\SkimmedArrayCSV\\"
+MotorCSVPath = "C:\\Users\kasahara\pro\OkanonProject\MotorCSV\\"
+# skimmedArrayPath = "D:\Programming\okanonproject\SkimmedArrayCSV\\"
+# MotorCSVPath = "D:\Programming\okanonproject\MotorCSV\\"
 
 
 startPointStringLen = [math.sqrt(
@@ -41,8 +43,8 @@ def main():
     global lastStep
 
     現在位置 = [0, 0]
-    # テスト用配列左 = list()
-    # テスト用配列右 = list()
+    テスト用配列左 = list()
+    テスト用配列右 = list()
 
     for num in range(imageNum):
         array = np.loadtxt(skimmedArrayPath + folderName + "\\skimmedArray"+str(num+1)+".csv",
@@ -56,15 +58,15 @@ def main():
             right.append(int(step[1]))
             現在位置[0] += int(step[0])
             現在位置[1] += int(step[1])
-            # テスト用配列左.append(int(step[0]))
-            # テスト用配列右.append(int(step[1]))
+            テスト用配列左.append(int(step[0]))
+            テスト用配列右.append(int(step[1]))
 
         if num + 1 == imageNum:
             # 絵の最後は原点に戻る
             left.append(-現在位置[0])
             right.append(-現在位置[1])
-            # テスト用配列左.append(-現在位置[0])
-            # テスト用配列右.append(-現在位置[1])
+            テスト用配列左.append(-現在位置[0])
+            テスト用配列右.append(-現在位置[1])
 
             現在位置[0] -= 現在位置[0]
             現在位置[1] -= 現在位置[1]
@@ -73,8 +75,8 @@ def main():
                    str(num+1)+".csv", left, delimiter=",")
         np.savetxt(MotorCSVPath + folderName + "\\RightMotor" +
                    str(num + 1) + ".csv", right, delimiter=",")
-        # np.savetxt("LeftMotor.csv", テスト用配列左, delimiter=",")
-        # np.savetxt("RightMotor.csv", テスト用配列右, delimiter=",")
+        np.savetxt(MotorCSVPath + folderName +"\\LeftMotor.csv", テスト用配列左, delimiter=",")
+        np.savetxt(MotorCSVPath + folderName +"\\RightMotor.csv", テスト用配列右, delimiter=",")
 
         print(str(num + 1) + "番目の画像")
         print(現在位置)

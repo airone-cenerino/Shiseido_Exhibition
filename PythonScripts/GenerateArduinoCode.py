@@ -6,8 +6,10 @@ folderName = "SampleImage2k"  # 画像フォルダ名
 pictureNum = 0      # 何枚目の絵か
 # ---------------------------------------------
 
-MotorCSVPath = "D:\Programming\okanonproject\MotorCSV\\"
-CodeTextPath = "D:\Programming\okanonproject\CodeText\\"
+MotorCSVPath = "C:\\Users\kasahara\pro\OkanonProject\MotorCSV\\"
+CodeTextPath = "C:\\Users\kasahara\pro\OkanonProject\CodeText\\"
+# MotorCSVPath = "D:\Programming\okanonproject\MotorCSV\\"
+# CodeTextPath = "D:\Programming\okanonproject\CodeText\\"
 
 
 def main():

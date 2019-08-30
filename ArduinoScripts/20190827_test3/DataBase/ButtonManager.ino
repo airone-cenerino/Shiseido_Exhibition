@@ -73,13 +73,10 @@ void ButtonCheck() {
 
 
 void InitializeButtonDown() {
-  Serial.println("初期化ボタンが押されました。");
-
   if (condition == STOP) {
-    Serial.println("位置調整を行います。");
-    // ここでモータを回して中心に持ってくる。
-
-
+    digitalWrite(INITIALIZE_BUTTON_LAMP_PIN, LOW);
+    InitializeMotorMove();
+    digitalWrite(INITIALIZE_BUTTON_LAMP_PIN, HIGH);
   }
 }
 
@@ -87,10 +84,16 @@ void StartStopButtonDown() {
   Serial.println("スタート/ストップボタンが押されました。");
   switch (condition) {
     case DRAW:
-      condition = STOP;
+      ServoUp();
+
+    
+      SetCondition(STOP);
       break;
     case STOP:
-      condition = DRAW;
+
+      ServoDown();
+    
+      SetCondition(DRAW);
       break;
   }
 }
@@ -108,9 +111,12 @@ void RestartButtonDown() {
   }
   line = 0;
   point = 1;
-  condition = DRAW;
+  SetCondition(DRAW);
 
+  digitalWrite(RESTART_BUTTON_LAMP_PIN, LOW);
   DisplayUpdate();
+  delay(500);
+  digitalWrite(RESTART_BUTTON_LAMP_PIN, HIGH);
 }
 
 void SelectButtonDown() {

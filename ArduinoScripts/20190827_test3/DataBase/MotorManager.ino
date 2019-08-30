@@ -22,9 +22,9 @@ void MotorSetUp() {
 
 void MotorMove() {
   if (pictures[picture][line][0][point] > 0) {
-    L6470_move(1, pictures[picture][line][0][point]);
+    L6470_move(0, pictures[picture][line][0][point]);
   } else {
-    L6470_move(0, -pictures[picture][line][0][point]);
+    L6470_move(1, -pictures[picture][line][0][point]);
   }
 
   Serial.println(pictures[picture][line][0][point]);
@@ -34,6 +34,13 @@ void MotorMove() {
   } else {
     L6470_move2(0, -pictures[picture][line][1][point]);
   }
+  L6470_busydelay(0);
+  L6470_busydelay2(0);
+}
+
+void InitializeMotorMove() {
+  L6470_move(0, 1000);
+  L6470_move2(1, 1000);
   L6470_busydelay(0);
   L6470_busydelay2(0);
 }

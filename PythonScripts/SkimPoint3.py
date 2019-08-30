@@ -9,8 +9,8 @@ skimDistance = 3    # 間引く距離
 imageNum = 28       # 画像の枚数
 folderName = "SampleImage2k"    # 画像フォルダ名
 
-始点リスト = [[1042, 922], [1036, 892], [1020, 916], [1072, 691], [1035, 795], [930, 979], [870, 373],
-         [1271, 479], [1365, 454], [1320, 1012], [
+始点リスト = [[1042, 922], [1036, 892], [1020, 916], [1072, 691], [1035, 785], [930, 979], [870, 373],
+         [1271, 479], [1363, 452], [1320, 1012], [
              945, 378], [971, 321], [989, 325], [1074, 382],
          [1061, 364], [1042, 356], [1030, 357], [1007, 440],
          [659, 664], [540, 224], [778, 426],
@@ -21,9 +21,10 @@ folderName = "SampleImage2k"    # 画像フォルダ名
          1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]  # 1なら反対から線を描く
 # ------------------------------------------------
 
-
-arrayCsvPath = "D:\Programming\okanonproject\ArrayCSV\\"
-skimmedArraypath = "D:\Programming\okanonproject\SkimmedArrayCSV\\"
+arrayCsvPath = "C:\\Users\kasahara\pro\OkanonProject\ArrayCSV\\"
+skimmedArraypath = "C:\\Users\kasahara\pro\OkanonProject\SkimmedArrayCSV\\"
+# arrayCsvPath = "D:\Programming\okanonproject\ArrayCSV\\"
+# skimmedArraypath = "D:\Programming\okanonproject\SkimmedArrayCSV\\"
 
 
 def GetSkimmedArray(array, 始点):

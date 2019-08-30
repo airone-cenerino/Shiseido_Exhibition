@@ -10,8 +10,11 @@ folderName = "SampleImage2k"    # 画像フォルダ名
 imageNum = 28                   # 画像の枚数
 # ------------------------------------------------
 
-imagePath = "D:\Programming\okanonproject\Images\\"
-csvPath = "D:\Programming\okanonproject\ArrayCSV\\"
+imagePath = "C:\\Users\kasahara\pro\OkanonProject\Images\\"
+csvPath = "C:\\Users\kasahara\pro\OkanonProject\ArrayCSV\\"
+#imagePath = "D:\Programming\okanonproject\Images\\"
+#csvPath = "D:\Programming\okanonproject\ArrayCSV\\"
+
 拡張子 = ".png"
 
 

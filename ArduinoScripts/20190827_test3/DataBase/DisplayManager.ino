@@ -4,8 +4,6 @@ LiquidCrystal lcd(33, 32, 31, 30, 29, 28);
 
 void DisplaySetUp() {
   lcd.begin(16, 2);
-  lcd.clear();
-  lcd.setCursor(0, 0);
   DisplayUpdate();
 }
 

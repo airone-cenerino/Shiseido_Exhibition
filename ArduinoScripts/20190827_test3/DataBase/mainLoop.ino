@@ -10,6 +10,12 @@ void loop() {
   ButtonCheck();
 
   if (condition == DRAW) {
+    if(point==1 || (line+1==lineNum[picture] && point == pictures[picture][line][0][0])){ // 最初の移動だった時
+      ServoUp();
+    }else{
+      ServoDown();
+    }
+    
     MotorMove();
 
     // イテレータをずらす
@@ -24,7 +30,7 @@ void loop() {
         }
         line = 0;
         point = 1;
-        condition = STOP;
+        SetCondition(STOP);
       } else {
         line++;
         point = 1;
@@ -34,5 +40,16 @@ void loop() {
     } else {
       point++;
     }
+  }
+}
+
+void SetCondition(int nextCondition){
+  condition = nextCondition;
+
+  if(condition == DRAW){
+    digitalWrite(START_STOP_BUTTON_LAMP_PIN, LOW);
+  }else{
+    digitalWrite(START_STOP_BUTTON_LAMP_PIN, HIGH);
+    ServoUp();
   }
 }
