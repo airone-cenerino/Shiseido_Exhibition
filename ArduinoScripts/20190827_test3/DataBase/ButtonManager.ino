@@ -123,7 +123,7 @@ void SelectButtonDown() {
   if (nextPicture + 1 == picturesLen) {
     nextPicture = 0;
   } else {
-    nextPicture = picture + 1;
+    nextPicture = nextPicture + 1;
   }
 
   digitalWrite(SELECT_BUTTON_LAMP_PIN, LOW);

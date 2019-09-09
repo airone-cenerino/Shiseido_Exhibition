@@ -6,9 +6,9 @@ xLen = 104          # 紙の横の長さ(cm)
 yLen = 104          # 紙の縦の長さ(cm)
 imageXLen = 2000    # 画像の横サイズ
 imageYLen = 2000    # 画像の縦サイズ
-cmToStepRatio = 400  # 1cm伸ばすのに必要なステップ数
-imageNum = 28       # 画像の枚数
-folderName = "SampleImage2k"    # 画像フォルダ名
+cmToStepRatio = 400 # 1cm伸ばすのに必要なステップ数
+imageNum = 14       # 画像の枚数
+folderName = "Drawing3"    # 画像フォルダ名
 # ---------------------------------------------
 
 skimmedArrayPath = "C:\\Users\kasahara\pro\OkanonProject\SkimmedArrayCSV\\"
@@ -46,13 +46,21 @@ def main():
     テスト用配列左 = list()
     テスト用配列右 = list()
 
+    線の総延長 = 0
+
     for num in range(imageNum):
+        print(線の総延長)
+
         array = np.loadtxt(skimmedArrayPath + folderName + "\\skimmedArray"+str(num+1)+".csv",
                            delimiter=",")  # 座標のデータを取得
         left = list()
         right = list()
+        lastPoint = [-1, -1]
 
         for point in array:
+            if lastPoint[0] != -1:
+                線の総延長 += np.sqrt(((lastPoint[0] - point[0]) * yLen /imageYLen) ** 2 + ((lastPoint[1] - point[1]) * xLen /imageXLen) ** 2)
+
             step = CalculateMotorMoveValue(point)  # 次の点を渡して、動かすステップ数を取得
             left.append(int(step[0]))
             right.append(int(step[1]))
@@ -60,6 +68,15 @@ def main():
             現在位置[1] += int(step[1])
             テスト用配列左.append(int(step[0]))
             テスト用配列右.append(int(step[1]))
+            
+            # if lastPoint[0] != -1:
+            #     テスト用配列左.append(1)
+            #     テスト用配列右.append(1)
+            # else:
+            #     テスト用配列左.append(0)
+            #     テスト用配列右.append(0)                
+
+            lastPoint = point
 
         if num + 1 == imageNum:
             # 絵の最後は原点に戻る
@@ -80,6 +97,7 @@ def main():
 
         print(str(num + 1) + "番目の画像")
         print(現在位置)
+        print("線の総延長" + str(線の総延長) + "cm")
 
         lastStep = 現在位置
 

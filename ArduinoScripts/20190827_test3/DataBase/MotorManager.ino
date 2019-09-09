@@ -1,16 +1,16 @@
 #include<stdio.h>
 
 void MotorSetUp() {
-  pinMode(PIN_SPI_MOSI, OUTPUT);
-  pinMode(PIN_SPI_MISO, INPUT);
-  pinMode(PIN_SPI_SCK, OUTPUT);
-  pinMode(PIN_SPI_SS, OUTPUT);
-  pinMode(PIN_BUSY, INPUT_PULLUP);
-  pinMode(PIN_BUSY2, INPUT_PULLUP);
+  pinMode(MOSI, OUTPUT);
+  pinMode(MISO, INPUT);
+  pinMode(SCK, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(37, INPUT_PULLUP);
+  pinMode(36, INPUT_PULLUP);
   SPI.begin();
   SPI.setDataMode(SPI_MODE3);
   SPI.setBitOrder(MSBFIRST);
-  digitalWrite(PIN_SPI_SS, HIGH);
+  digitalWrite(4, HIGH);
 
   L6470_resetdevice(); //1台目のL6470リセット
   L6470_resetdevice2(); //2台目のL6470リセット

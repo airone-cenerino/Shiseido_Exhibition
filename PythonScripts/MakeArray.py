@@ -6,8 +6,8 @@ from collections import deque
 # ------------------------------------------------
 imageXLen = 2000                # 画像の横サイズ
 imageYLen = 2000                # 画像の縦サイズ
-folderName = "SampleImage2k"    # 画像フォルダ名
-imageNum = 28                   # 画像の枚数
+folderName = "Drawing2"    # 画像フォルダ名
+imageNum = 45                   # 画像の枚数
 # ------------------------------------------------
 
 imagePath = "C:\\Users\kasahara\pro\OkanonProject\Images\\"

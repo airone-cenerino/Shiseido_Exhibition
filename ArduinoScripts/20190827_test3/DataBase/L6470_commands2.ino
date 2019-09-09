@@ -227,17 +227,17 @@ long L6470_getstatus2(){
   L6470_send2(0xd0);
   for(int i=0;i<=1;i++){
     val = val << 8;
-    digitalWrite(PIN_SPI_SS, LOW); // ~SSイネーブル。
+    digitalWrite(4, LOW); // ~SSイネーブル。
     val = val | SPI.transfer(0x00); // アドレスもしくはデータ送信。
     SPI.transfer(0x00); // アドレスもしくはデータ送信。
-    digitalWrite(PIN_SPI_SS, HIGH); // ~SSディスエーブル 
+    digitalWrite(4, HIGH); // ~SSディスエーブル 
   }
   return val;
 }
 void L6470_transfer2(int add,int bytes,long val){//2台目に送信
   int data[3];
 //while(!busy_flag2()){} //BESYが解除されるまで待機
-  while(!digitalRead(PIN_BUSY2)){}//BESYピン出力が解除されるまで待機
+  while(!digitalRead(36)){}//BESYピン出力が解除されるまで待機
   L6470_send2(add);
   for(int i=0;i<=bytes-1;i++){
     data[i] = val & 0xff;  
@@ -255,15 +255,15 @@ void L6470_transfer2(int add,int bytes,long val){//2台目に送信
 }
 void L6470_send2(unsigned char add_or_val){//2台目に送信
 
-  digitalWrite(PIN_SPI_SS, LOW); // ~SSイネーブル。
+  digitalWrite(4, LOW); // ~SSイネーブル。
   SPI.transfer(add_or_val); // アドレスもしくはデータ送信。
   SPI.transfer(0); // 0送信。
-  digitalWrite(PIN_SPI_SS, HIGH); // ~SSディスエーブル。
+  digitalWrite(4, HIGH); // ~SSディスエーブル。
 }
 
 void L6470_busydelay2(long time){
 //while(!busy_flag2()){}
-  while(!digitalRead(PIN_BUSY2)){}//BESYピン出力が解除されるまで待機
+  while(!digitalRead(36)){}//BESYピン出力が解除されるまで待機
   delay(time);
 }
 
@@ -273,10 +273,10 @@ long L6470_getparam2(int add,int bytes){//2台目に送信
   L6470_send2(send_add);
   for(int i=0;i<=bytes-1;i++){
     val = val << 8;
-    digitalWrite(PIN_SPI_SS, LOW); // ~SSイネーブル。
+    digitalWrite(4, LOW); // ~SSイネーブル。
     val = val | SPI.transfer(0x00); // アドレスもしくはデータ送信。
     SPI.transfer(0x00); // アドレスもしくはデータ送信。
-    digitalWrite(PIN_SPI_SS, HIGH); // ~SSディスエーブル 
+    digitalWrite(4, HIGH); // ~SSディスエーブル 
   }
   return val;
 }

@@ -1,5 +1,5 @@
   
-  float width = 104;
+  float width = 160;
   float l = width*sqrt(2)/2+0;
   float r = width*sqrt(2)/2+0;
   int rstep = 0;
@@ -29,7 +29,8 @@
   }
   
   void draw(){
-      
+    delay(30);
+    
     if(ln < 3753)
     {      
     background(255);

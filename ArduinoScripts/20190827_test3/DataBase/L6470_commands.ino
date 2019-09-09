@@ -1,12 +1,12 @@
 #include<SPI.h>
 
 // ピン定義。-------Due用
-#define PIN_SPI_MOSI MOSI
-#define PIN_SPI_MISO MISO
-#define PIN_SPI_SCK SCK
-#define PIN_SPI_SS 4
-#define PIN_BUSY 37
-#define PIN_BUSY2 36
+//#define PIN_SPI_MOSI MOSI
+//#define PIN_SPI_MISO MISO
+//#define PIN_SPI_SCK SCK
+//#define PIN_SPI_SS 4
+//#define PIN_BUSY 37
+//#define PIN_BUSY2 36
 
 //----------------Uno用
 //#define PIN_SPI_MOSI 11
@@ -252,10 +252,10 @@ long L6470_getstatus(){
   L6470_send(0xd0);
   for(int i=0;i<=1;i++){
     val = val << 8;
-    digitalWrite(PIN_SPI_SS, LOW); // ~SSイネーブル。
+    digitalWrite(4, LOW); // ~SSイネーブル。
     SPI.transfer(0x00); // アドレスもしくはデータ送信。
     val = val | SPI.transfer(0x00); // アドレスもしくはデータ送信。
-    digitalWrite(PIN_SPI_SS, HIGH); // ~SSディスエーブル 
+    digitalWrite(4, HIGH); // ~SSディスエーブル 
   }
   return val;
 }
@@ -264,7 +264,7 @@ long L6470_getstatus(){
 void L6470_transfer(int add,int bytes,long val){//1台目に送信
   int data[3];
   //while(!busy_flag()){} //BESYフラグが解除されるまで待機
-  while(!digitalRead(PIN_BUSY)){}//BESYピン出力が解除されるまで待機
+  while(!digitalRead(37)){}//BESYピン出力が解除されるまで待機
   L6470_send(add);
   for(int i=0;i<=bytes-1;i++){
     data[i] = val & 0xff;  
@@ -283,15 +283,15 @@ void L6470_transfer(int add,int bytes,long val){//1台目に送信
 
 
 void L6470_send(unsigned char add_or_val){//1台目に送信
-  digitalWrite(PIN_SPI_SS, LOW); // ~SSイネーブル。
+  digitalWrite(4, LOW); // ~SSイネーブル。
   SPI.transfer(0); // アドレスもしくはデータ送信。
   SPI.transfer(add_or_val); // アドレスもしくはデータ送信。
-  digitalWrite(PIN_SPI_SS, HIGH); // ~SSディスエーブル。
+  digitalWrite(4, HIGH); // ~SSディスエーブル。
 }
 
 void L6470_busydelay(long time){
 //while(!busy_flag()){}
-  while(!digitalRead(PIN_BUSY)){}//BESYピン出力が解除されるまで待機
+  while(!digitalRead(37)){}//BESYピン出力が解除されるまで待機
   delay(time);
 }
 
@@ -301,10 +301,10 @@ long L6470_getparam(int add,int bytes){//1台目に送信
   L6470_send(send_add);
   for(int i=0;i<=bytes-1;i++){
     val = val << 8;
-    digitalWrite(PIN_SPI_SS, LOW); // ~SSイネーブル。
+    digitalWrite(4, LOW); // ~SSイネーブル。
     SPI.transfer(0x00);// 0送信。
     val = val | SPI.transfer(0x00); // アドレスもしくはデータ送信。
-    digitalWrite(PIN_SPI_SS, HIGH); // ~SSディスエーブル 
+    digitalWrite(4, HIGH); // ~SSディスエーブル 
   }
   return val;
 }

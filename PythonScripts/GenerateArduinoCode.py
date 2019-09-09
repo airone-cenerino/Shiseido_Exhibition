@@ -1,9 +1,9 @@
 import numpy as np
 
 # ---------------------------------------------
-imageNum = 28       # 画像の枚数
-folderName = "SampleImage2k"  # 画像フォルダ名
-pictureNum = 0      # 何枚目の絵か
+imageNum = 14       # 画像の枚数
+folderName = "Drawing3"  # 画像フォルダ名
+pictureNum = 3      # 何枚目の絵か
 # ---------------------------------------------
 
 MotorCSVPath = "C:\\Users\kasahara\pro\OkanonProject\MotorCSV\\"

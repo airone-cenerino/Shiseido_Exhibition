@@ -1,0 +1,15 @@
+int* line3_0[] = {X3_0, Y3_0};
+int* line3_1[] = {X3_1, Y3_1};
+int* line3_2[] = {X3_2, Y3_2};
+int* line3_3[] = {X3_3, Y3_3};
+int* line3_4[] = {X3_4, Y3_4};
+int* line3_5[] = {X3_5, Y3_5};
+int* line3_6[] = {X3_6, Y3_6};
+int* line3_7[] = {X3_7, Y3_7};
+int* line3_8[] = {X3_8, Y3_8};
+int* line3_9[] = {X3_9, Y3_9};
+int* line3_10[] = {X3_10, Y3_10};
+int* line3_11[] = {X3_11, Y3_11};
+int* line3_12[] = {X3_12, Y3_12};
+int* line3_13[] = {X3_13, Y3_13};
+int** picture3[] = {line3_0, line3_1, line3_2, line3_3, line3_4, line3_5, line3_6, line3_7, line3_8, line3_9, line3_10, line3_11, line3_12, line3_13};
