@@ -14,7 +14,7 @@ bool restartButtonCondition = false;
 bool selectButtonCondition = false;
 
 
-void ButtonSetUp() {
+void ButtonManager_ButtonSetUp() {
   pinMode(INITIALIZE_BUTTON_PIN, INPUT);
   pinMode(START_STOP_BUTTON_PIN, INPUT);
   pinMode(RESTART_BUTTON_PIN, INPUT);
@@ -32,10 +32,10 @@ void ButtonSetUp() {
   digitalWrite(25, HIGH);
 }
 
-void ButtonCheck() {
+void ButtonManager_ButtonCheck() {
   if (digitalRead(INITIALIZE_BUTTON_PIN) == 0) {
     if (!initialButtonCondition) {
-      InitializeButtonDown();
+      ButtonManager_InitializeButtonDown();
       initialButtonCondition = true;
     }
   } else {
@@ -44,7 +44,7 @@ void ButtonCheck() {
 
   if (digitalRead(START_STOP_BUTTON_PIN) == 0) {
     if (!startStopButtonCondition) {
-      StartStopButtonDown();
+      ButtonManager_StartStopButtonDown();
       startStopButtonCondition = true;
     }
   } else {
@@ -53,7 +53,7 @@ void ButtonCheck() {
 
   if (digitalRead(RESTART_BUTTON_PIN) == 0) {
     if (!restartButtonCondition) {
-      RestartButtonDown();
+      ButtonManager_RestartButtonDown();
       restartButtonCondition = true;
     }
   } else {
@@ -62,7 +62,7 @@ void ButtonCheck() {
 
   if (digitalRead(SELECT_BUTTON_PIN) == 0) {
     if (!selectButtonCondition) {
-      SelectButtonDown();
+      ButtonManager_SelectButtonDown();
       selectButtonCondition = true;
     }
   } else {
@@ -72,33 +72,38 @@ void ButtonCheck() {
 
 
 
-void InitializeButtonDown() {
+void ButtonManager_InitializeButtonDown() {
   if (condition == STOP) {
     digitalWrite(INITIALIZE_BUTTON_LAMP_PIN, LOW);
-    InitializeMotorMove();
+    MotorManager_InitializeMotorMove();
     digitalWrite(INITIALIZE_BUTTON_LAMP_PIN, HIGH);
   }
 }
 
-void StartStopButtonDown() {
+void ButtonManager_StartStopButtonDown() {
   Serial.println("スタート/ストップボタンが押されました。");
   switch (condition) {
     case DRAW:
-      ServoUp();
-
-    
-      SetCondition(STOP);
+      ServoManager_ServoUp();
+      TimeKeeper_SetPauseStartTime();    
+      MainLoop_SetCondition(STOP);
       break;
     case STOP:
-
-      ServoDown();
-    
-      SetCondition(DRAW);
+      if(line == 0 && point == 1){
+        TimeKeeper_ResetTime();
+      }else{
+        TimeKeeper_RestartReviseStartTime();
+      }
+      
+      ServoManager_ServoDown();
+      MainLoop_SetCondition(DRAW);
       break;
   }
+
+  delay(500);
 }
 
-void RestartButtonDown() {
+void ButtonManager_RestartButtonDown() {
   Serial.println("リスタートボタンが押されました。");
 
   // 次に描く絵を最初から描き始める
@@ -111,15 +116,16 @@ void RestartButtonDown() {
   }
   line = 0;
   point = 1;
-  SetCondition(DRAW);
+  MainLoop_SetCondition(DRAW);
+  TimeKeeper_ResetTime();
 
   digitalWrite(RESTART_BUTTON_LAMP_PIN, LOW);
-  DisplayUpdate();
+  DisplayManager_DisplayUpdate();
   delay(500);
   digitalWrite(RESTART_BUTTON_LAMP_PIN, HIGH);
 }
 
-void SelectButtonDown() {
+void ButtonManager_SelectButtonDown() {
   if (nextPicture + 1 == picturesLen) {
     nextPicture = 0;
   } else {
@@ -127,7 +133,7 @@ void SelectButtonDown() {
   }
 
   digitalWrite(SELECT_BUTTON_LAMP_PIN, LOW);
-  DisplayUpdate();
+  DisplayManager_DisplayUpdate();
   delay(500);
   digitalWrite(SELECT_BUTTON_LAMP_PIN, HIGH);
 }

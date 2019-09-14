@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-void MotorSetUp() {
+void MotorManager_MotorSetUp() {
   pinMode(MOSI, OUTPUT);
   pinMode(MISO, INPUT);
   pinMode(SCK, OUTPUT);
@@ -20,7 +20,7 @@ void MotorSetUp() {
   L6470_getstatus2();//2台目のフラグ解放
 }
 
-void MotorMove() {
+void MotorManager_MotorMove() {
   if (pictures[picture][line][0][point] > 0) {
     L6470_move(0, pictures[picture][line][0][point]);
   } else {
@@ -30,15 +30,15 @@ void MotorMove() {
   Serial.println(pictures[picture][line][0][point]);
 
   if (pictures[picture][line][1][point] > 0) {
-    L6470_move2(1, pictures[picture][line][1][point]);
+    L6470_move2(0, pictures[picture][line][1][point]);
   } else {
-    L6470_move2(0, -pictures[picture][line][1][point]);
+    L6470_move2(1, -pictures[picture][line][1][point]);
   }
   L6470_busydelay(0);
   L6470_busydelay2(0);
 }
 
-void InitializeMotorMove() {
+void MotorManager_InitializeMotorMove() {
   L6470_move(0, 1000);
   L6470_move2(1, 1000);
   L6470_busydelay(0);

@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import as_completed
 from collections import deque
 
 
@@ -46,37 +48,38 @@ def SearchStartPoint(array, 探索開始点):
 
     return lastPoint
 
+def MakeCSV(num):
+    print(str(num+1) + "枚目処理開始")
+
+    img = cv2.imread(imagePath + folderName + "\\" +
+                        str(num+1) + 拡張子)   # 画像読み込み
+    array = [[0 for i in range(imageXLen)]
+                for j in range(imageYLen)]  # 色があるところは0、そうでなければ1の配列を宣言
+
+    探索開始点 = list()
+
+    for i in range(imageYLen):
+        if i % 200 == 0:
+            print("■ ", end="")
+        for j in range(imageXLen):
+            if not (img[i][j][0] == 255 and img[i][j][1] == 255 and img[i][j][2] == 255):
+                array[i][j] = 1
+                探索開始点 = [i, j]
+
+    np.savetxt(csvPath + folderName + "\\array" +
+                str(num+1) + ".csv", array, delimiter=",")
+
+    return SearchStartPoint(array, 探索開始点)
 
 def main():
-    始点リスト = list()
-    for num in range(imageNum):
-        print(str(num+1) + "枚目処理開始")
+    with ProcessPoolExecutor(max_workers=8) as excuter:
+        始点リスト = [excuter.submit(MakeCSV, num) for num in list(range(imageNum))]
 
-        img = cv2.imread(imagePath + folderName + "\\" +
-                         str(num+1) + 拡張子)   # 画像読み込み
-        array = [[0 for i in range(imageXLen)]
-                 for j in range(imageYLen)]  # 色があるところは0、そうでなければ1の配列を宣言
-
-        探索開始点 = list()
-
-        for i in range(imageYLen):
-            if i % 200 == 0:
-                print("■ ", end="")
-            for j in range(imageXLen):
-                if not (img[i][j][0] == 255 and img[i][j][1] == 255 and img[i][j][2] == 255):
-                    array[i][j] = 1
-                    探索開始点 = [i, j]
-
-        np.savetxt(csvPath + folderName + "\\array" +
-                   str(num+1) + ".csv", array, delimiter=",")
-
-        始点リスト.append(SearchStartPoint(array, 探索開始点))
-        print()
-        print(str(num+1) + "枚目の始点 : " + str(始点リスト[num]))
-
-    print("始点のリスト")
     print(始点リスト)
-
+    li = list()
+    for future in as_completed(始点リスト):
+        li.append(future.result())
+    print(li)
 
 if __name__ == '__main__':
     main()

@@ -1,5 +1,5 @@
   
-  float width = 160;
+  float width = 104;
   float l = width*sqrt(2)/2+0;
   float r = width*sqrt(2)/2+0;
   int rstep = 0;
