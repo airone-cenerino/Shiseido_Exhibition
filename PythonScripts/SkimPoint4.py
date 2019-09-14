@@ -1,7 +1,7 @@
 import numpy as np
 from collections import deque
 from concurrent.futures import ProcessPoolExecutor
-from concurrent.futures import as_complete
+from concurrent.futures import as_completed
 from matplotlib import pyplot
 
 # ------------------------------------------------
@@ -95,28 +95,32 @@ def ShowGraph(array):
     pyplot.show()
 
 
+def process(num):
+    print(num)
+    reverseFlg = 反転リスト[num]
+
+    dataArray = np.loadtxt(arrayCsvPath + folderName + "\\array" + str(num+1) +
+                           ".csv", delimiter=",")  # 0と1の配列を取得
+    resultArray = GetSkimmedArray(
+        dataArray, 始点リスト[num])            # 間引いた後の座標リストを取得
+
+    if reverseFlg == 1:
+        reversedArray = list()
+        for 座標 in resultArray:
+            reversedArray.insert(0, 座標)
+
+        np.savetxt(skimmedArraypath + folderName + "\\skimmedArray" + str(num + 1) +
+                   ".csv", reversedArray, delimiter=",")
+        # ShowGraph(reversedArray)
+    else:
+        np.savetxt(skimmedArraypath + folderName + "\\skimmedArray" + str(num + 1) +
+                   ".csv", resultArray, delimiter=",")
+        # ShowGraph(resultArray)
+
+
 def main():
-    for num in range(imageNum):
-        print(num)
-        reverseFlg = 反転リスト[num]
-
-        dataArray = np.loadtxt(arrayCsvPath + folderName + "\\array" + str(num+1) +
-                               ".csv", delimiter=",")  # 0と1の配列を取得
-        resultArray = GetSkimmedArray(
-            dataArray, 始点リスト[num])            # 間引いた後の座標リストを取得
-
-        if reverseFlg == 1:
-            reversedArray = list()
-            for 座標 in resultArray:
-                reversedArray.insert(0, 座標)
-
-            np.savetxt(skimmedArraypath + folderName + "\\skimmedArray" + str(num + 1) +
-                       ".csv", reversedArray, delimiter=",")
-            # ShowGraph(reversedArray)
-        else:
-            np.savetxt(skimmedArraypath + folderName + "\\skimmedArray" + str(num + 1) +
-                       ".csv", resultArray, delimiter=",")
-            # ShowGraph(resultArray)
+    with ProcessPoolExecutor(max_workers=16) as executor:
+        executor.map(process, list(range(imageNum)))
 
 
 if __name__ == '__main__':

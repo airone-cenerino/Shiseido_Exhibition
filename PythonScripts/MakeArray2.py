@@ -12,10 +12,10 @@ folderName = "Drawing3"    # 画像フォルダ名
 imageNum = 14                   # 画像の枚数
 # ------------------------------------------------
 
-imagePath = "C:\\Users\kasahara\pro\OkanonProject\Images\\"
-csvPath = "C:\\Users\kasahara\pro\OkanonProject\ArrayCSV\\"
-#imagePath = "D:\Programming\okanonproject\Images\\"
-#csvPath = "D:\Programming\okanonproject\ArrayCSV\\"
+# imagePath = "C:\\Users\kasahara\pro\OkanonProject\Images\\"
+# csvPath = "C:\\Users\kasahara\pro\OkanonProject\ArrayCSV\\"
+imagePath = "D:\Programming\okanonproject\Images\\"
+csvPath = "D:\Programming\okanonproject\ArrayCSV\\"
 
 拡張子 = ".png"
 
@@ -48,38 +48,42 @@ def SearchStartPoint(array, 探索開始点):
 
     return lastPoint
 
+
 def MakeCSV(num):
     print(str(num+1) + "枚目処理開始")
 
     img = cv2.imread(imagePath + folderName + "\\" +
-                        str(num+1) + 拡張子)   # 画像読み込み
+                     str(num+1) + 拡張子)   # 画像読み込み
     array = [[0 for i in range(imageXLen)]
-                for j in range(imageYLen)]  # 色があるところは0、そうでなければ1の配列を宣言
+             for j in range(imageYLen)]  # 色があるところは0、そうでなければ1の配列を宣言
 
     探索開始点 = list()
 
     for i in range(imageYLen):
         if i % 200 == 0:
-            print("■ ", end="")
+            print(str(int(i / 200 + 1)) + " ", end="")
         for j in range(imageXLen):
             if not (img[i][j][0] == 255 and img[i][j][1] == 255 and img[i][j][2] == 255):
                 array[i][j] = 1
                 探索開始点 = [i, j]
 
     np.savetxt(csvPath + folderName + "\\array" +
-                str(num+1) + ".csv", array, delimiter=",")
+               str(num+1) + ".csv", array, delimiter=",")
 
     return SearchStartPoint(array, 探索開始点)
 
-def main():
-    with ProcessPoolExecutor(max_workers=8) as excuter:
-        始点リスト = [excuter.submit(MakeCSV, num) for num in list(range(imageNum))]
 
+def main():
+    始点リスト = list()
+
+    with ProcessPoolExecutor(max_workers=16) as executor:
+        for result in executor.map(MakeCSV, list(range(imageNum))):
+            始点リスト.append(result)
+
+    as_completed(始点リスト)
+    print()
     print(始点リスト)
-    li = list()
-    for future in as_completed(始点リスト):
-        li.append(future.result())
-    print(li)
+
 
 if __name__ == '__main__':
     main()
